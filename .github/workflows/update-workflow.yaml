@@ -2,8 +2,8 @@ name: Build, Push, and Update Deployment
 
 on:
   workflow_dispatch:
-    branches:
-      - main
+    #branches:
+      #- main
 
 jobs:
   build:
@@ -63,7 +63,9 @@ jobs:
       - name: Update deployment image version
         run: |
           cd py-app-manifests
-          sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" manifests/deployment.yaml
+          cd manifests
+          ls -la
+          sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
 
       # 🔟 Faz commit e push das mudanças
       - name: Commit and push changes
