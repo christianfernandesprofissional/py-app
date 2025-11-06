@@ -65,28 +65,31 @@ jobs:
           cd py-app-manifests
           cd manifests
           ls -la
-          git checkout -b develop
-          git pull origin develop
           sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
 
-      # Faz commit e push do manifest alterado
-      - name: Commit and push changes to develop
+      # Faz o commit e o push em uma branch temporária
+      - name: Commit and push changes to new branch
         run: |
           cd py-app-manifests
           git config user.name "github-actions[bot]"
           git config user.email "github-actions@github.com"
-          git add .
-          git commit -m "Update image to version ${IMAGE_VERSION}" 
-          git push origin develop
 
-      # Cria o Pull Request da develop para a main
+          # Cria uma branch temporária única
+          BRANCH_NAME="auto/update-image-${{ env.IMAGE_VERSION }}"
+          git checkout -b "$BRANCH_NAME"
+
+          git add .
+          git commit -m "Update image to version ${IMAGE_VERSION}"
+          git push origin "$BRANCH_NAME"
+
+      # Cria o Pull Request da branch temporária para a main
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.TOKEN_MANIFESTS }}
-          path: py-app-manifests
-          base: main          
-          branch: develop      
+          base: main
+          branch: auto/update-image-${{ env.IMAGE_VERSION }}
           title: "Update image to version ${{ env.IMAGE_VERSION }}"
           body: |
             This PR updates the image tag to `${{ env.IMAGE_VERSION }}`.
+          delete-branch: true
