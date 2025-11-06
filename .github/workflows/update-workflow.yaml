@@ -40,7 +40,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            christianfernandesprofissional/py-app:${{ env.IMAGE_VERSION }}
+            christianfernandesprofissional/py-app:v${{ env.IMAGE_VERSION }}
 
       # 6️⃣ Mostra imagens locais (opcional, debug)
       - name: Show docker images
@@ -63,7 +63,7 @@ jobs:
       - name: Update deployment image version
         run: |
           cd py-app-manifests
-          sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" ./deployment.yaml
+          sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" ../manifests/deployment.yaml
 
       # 🔟 Faz commit e push das mudanças
       - name: Commit and push changes
