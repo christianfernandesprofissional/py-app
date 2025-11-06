@@ -85,6 +85,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.TOKEN_MANIFESTS }}
+          path: py-app-manifests
           base: main          
           branch: develop      
           title: "Update image to version ${{ env.IMAGE_VERSION }}"
