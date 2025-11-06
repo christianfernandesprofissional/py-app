@@ -65,6 +65,8 @@ jobs:
           cd py-app-manifests
           cd manifests
           ls -la
+          git checkout -b develop
+          git pull origin develop
           sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
 
       # Faz commit e push do manifest alterado
