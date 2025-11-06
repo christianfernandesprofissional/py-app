@@ -68,12 +68,22 @@ jobs:
           sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
 
       # Faz commit e push do manifest alterado
-      - name: Commit and push changes
+      - name: Commit and push changes to develop
         run: |
           cd py-app-manifests
           git config user.name "github-actions[bot]"
           git config user.email "github-actions@github.com"
           git add .
-          git commit -m "Update image to version ${IMAGE_VERSION}"
-          git push origin main
-  
+          git commit -m "Update image to version ${IMAGE_VERSION}" 
+          git push origin develop
+
+      # Cria o Pull Request da develop para a main
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main          
+          branch: develop      
+          title: "Update image to version ${{ env.IMAGE_VERSION }}"
+          body: |
+            This PR updates the image tag to `${{ env.IMAGE_VERSION }}`.
