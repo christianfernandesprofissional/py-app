@@ -67,5 +67,4 @@ jobs:
           body: |
             This PR updates the image tag to `${{ env.IMAGE_VERSION }}`.
           delete-branch: true
-          push-to-fork: christianfernandesprofissional/py-app-manifests
           path: ./py-app-manifests
