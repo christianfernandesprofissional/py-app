@@ -73,7 +73,7 @@ jobs:
           cd py-app-manifests
           git config user.name "github-actions[bot]"
           git config user.email "github-actions@github.com"
-          git add deployment.yaml
+          git add .
           git commit -m "Update image to version ${IMAGE_VERSION}"
           git push origin main
   
