@@ -1,0 +1,77 @@
+name: Build, Push, and Update Deployment
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Clona o repositório atual (código da aplicação)
+      - name: Checkout app repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Configura Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3️⃣ Login no Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 4️⃣ Cria variáveis de versão
+      - name: Set image version variables
+        id: vars
+        run: |
+          echo "RUN_NUMBER=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          echo "IMAGE_VERSION=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+
+      # 5️⃣ Build e push da imagem para o Docker Hub
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            christianfernandesprofissional/py-app:${{ env.IMAGE_VERSION }}
+
+      # 6️⃣ Mostra imagens locais (opcional, debug)
+      - name: Show docker images
+        run: docker images
+
+      # 7️⃣ Adiciona chave SSH para acessar o outro repositório
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 8️⃣ Clona o repositório de manifests (onde está o deployment.yaml)
+      - name: Clone manifests repository
+        run: |
+          git clone git@github.com:christianfernandesprofissional/py-app-manifests.git
+          cd py-app-manifests
+          ls -la
+
+      # 9️⃣ Atualiza a imagem no deployment.yaml
+      - name: Update deployment image version
+        run: |
+          cd py-app-manifests
+          sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" ./deployment.yaml
+
+      # 🔟 Faz commit e push das mudanças
+      - name: Commit and push changes
+        run: |
+          cd py-app-manifests
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions@github.com"
+          git add deployment.yaml
+          git commit -m "Update image to version ${IMAGE_VERSION}"
+          git push origin main
+  
