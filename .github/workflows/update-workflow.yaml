@@ -83,7 +83,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SSH_PRIVATE_KEY }}
           base: main          
           branch: develop      
           title: "Update image to version ${{ env.IMAGE_VERSION }}"
