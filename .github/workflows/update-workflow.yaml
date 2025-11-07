@@ -59,7 +59,9 @@ jobs:
           cd py-app-manifests/manifests
           sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
 
+      # Cria o Pull Request da branch temporária para a main
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.TOKEN_MANIFESTS }}
@@ -70,3 +72,13 @@ jobs:
             This PR updates the image tag to `${{ env.IMAGE_VERSION }}`.
           delete-branch: true
           path: ./py-app-manifests
+
+      # Faz o merge automático do Pull Request
+      - name: Merge Pull Request
+        uses: peter-evans/merge-pull-request@v3
+        with:
+          token: ${{ secrets.TOKEN_MANIFESTS }}
+          pull-request: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
+          delete-branch: true
+
