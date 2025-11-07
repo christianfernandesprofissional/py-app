@@ -54,6 +54,7 @@ jobs:
 
       # Atualiza o arquivo deployment.yaml
       - name: Update deployment image version
+        id: create-pull-request 
         run: |
           cd py-app-manifests/manifests
           sed -i "s|image: christianfernandesprofissional/py-app:.*|image: christianfernandesprofissional/py-app:${IMAGE_VERSION}|" deployment.yaml
