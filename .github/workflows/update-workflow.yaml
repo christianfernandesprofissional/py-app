@@ -74,5 +74,5 @@ jobs:
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.TOKEN_MANIFESTS }}
-          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
           merge-method: squash
