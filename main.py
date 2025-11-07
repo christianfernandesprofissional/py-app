@@ -13,6 +13,7 @@ async def root():
         <body>
             <h1>Hello Beautiful World 🌎</h1>
             <p>Esta é uma página HTML servida pelo FastAPI.</p>
+            <p>E está sendo atualizada automaticamente pelo workflow contido em <a href="https://github.com/christianfernandesprofissional/py-app">https://github.com/christianfernandesprofissional/py-app<a/></p>
         </body>
     </html>
     """
