@@ -475,7 +475,8 @@ No Docker Hub também ocorreu a atualização para a nova versão:
 
 Após alguns segundos o seu ArgoCD também irá atualizar a aplicação já que seus manifests foram alterados, acesse pelo navegador e veja as atualizações:
 
-<img width="902" height="265" alt="20pushdockerhub" src="https://github.com/user-attachments/assets/d7215846-cebe-4e53-919c-d2c3ebbcfb83" />
+<img width="1056" height="262" alt="21novapaginanavegador" src="https://github.com/user-attachments/assets/e9287377-574e-497a-bf71-48717862a255" />
+
 
 Ou pelo Curl:
 
