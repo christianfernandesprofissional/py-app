@@ -74,5 +74,6 @@ jobs:
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.TOKEN_MANIFESTS }}
+          repository: christianfernandesprofissional/py-app-manifests
           pull-request-number: ${{ steps.create-pull-request.outputs.pull-request-number }}
           merge-method: squash
