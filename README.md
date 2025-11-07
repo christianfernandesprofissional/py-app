@@ -12,7 +12,7 @@ Essa pipeline automatiza o ciclo completo de CI/CD (Continuous Integration / Con
 
 O fluxo automatizado é composto por duas partes principais:
 
-### Repositório da Aplicação 
+### Aplicação - Localizada neste repositório
 
 - Contém o código-fonte e o arquivo Dockerfile.
 
