@@ -68,3 +68,10 @@ jobs:
             This PR updates the image tag to `${{ env.IMAGE_VERSION }}`.
           delete-branch: true
           path: ./py-app-manifests
+
+      - name: Enable Pull Request Automerge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.TOKEN_MANIFESTS }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
