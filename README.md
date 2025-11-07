@@ -1,4 +1,4 @@
-# Automatização de Deploy com GitHub Actions, Docker Hub e ArgoCD
+# CI/CD com o Github Actions
 
 
 Este projeto demonstra como automatizar o processo de build, versionamento e deploy contínuo de uma aplicação utilizando GitHub Actions, Docker Hub e ArgoCD.
